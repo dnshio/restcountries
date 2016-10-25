@@ -9,7 +9,7 @@
         <id name="language" association-key="true" />
 
         <many-to-one target-entity="SamKnows\CountriesBundle\Entity\Country" field="country" inversed-by="translations">
-            <join-column name="country" referenced-column-name="iso2" />
+            <join-column name="country" referenced-column-name="iso2" on-delete="CASCADE" />
         </many-to-one>
         <many-to-one target-entity="SamKnows\CountriesBundle\Entity\Language" field="language">
             <join-column name="language" referenced-column-name="code" />

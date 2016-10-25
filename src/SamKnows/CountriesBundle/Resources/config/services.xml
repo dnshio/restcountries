@@ -4,13 +4,28 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <services>
-        <service id="sam_knows_countries.example" class="SamKnows\CountriesBundle\Example">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="sam_knows_countries.repository.country" class="SamKnows\CountriesBundle\Repository\CountryRepository">
+            <factory service="doctrine.orm.entity_manager" method="getRepository" />
+            <argument type="string">SamKnows\CountriesBundle\Entity\Country</argument>
+        </service>
+        <service id="sam_knows_countries.repository.language" class="SamKnows\CountriesBundle\Repository\LanguageRepository">
+            <factory service="doctrine.orm.entity_manager" method="getRepository" />
+            <argument type="string">SamKnows\CountriesBundle\Entity\Language</argument>
+        </service>
+
+        <service id="guzzle.rest_countries.client" class="GuzzleHttp\Client">
+        </service>
+
+        <service id="sam_knows_countries.fetcher.country_hydrator" class="SamKnows\CountriesBundle\Fetcher\CountryHydrator">
+            <argument type="service" id="sam_knows_countries.repository.language" />
+        </service>
+
+        <service id="sam_knows_countries.fetcher.country_fetcher" class="SamKnows\CountriesBundle\Fetcher\CountryFetcher">
+            <argument type="service" id="guzzle.rest_countries.client" />
+            <argument type="service" id="sam_knows_countries.repository.country" />
+            <argument type="service" id="sam_knows_countries.fetcher.country_hydrator" />
         </service>
     </services>
-    -->
+
 </container>

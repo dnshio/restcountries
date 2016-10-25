@@ -1,8 +1,44 @@
-CREATE TABLE country (iso2 VARCHAR(2) NOT NULL, iso3 VARCHAR(3) NOT NULL, name VARCHAR(100) NOT NULL, tld VARCHAR(3) NOT NULL, lat DOUBLE PRECISION NOT NULL, `long` DOUBLE PRECISION NOT NULL, PRIMARY KEY(iso2)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;
-CREATE TABLE country_languages (country VARCHAR(2) NOT NULL, language VARCHAR(2) NOT NULL, INDEX IDX_153256195373C966 (country), INDEX IDX_15325619D4DB71B5 (language), PRIMARY KEY(country, language)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;
-CREATE TABLE language (code VARCHAR(2) NOT NULL, PRIMARY KEY(code)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;
-CREATE TABLE translation (country VARCHAR(2) NOT NULL, language VARCHAR(2) NOT NULL, translation VARCHAR(255) NOT NULL, INDEX IDX_B469456F5373C966 (country), INDEX IDX_B469456FD4DB71B5 (language), PRIMARY KEY(country, language)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;
-ALTER TABLE country_languages ADD CONSTRAINT FK_153256195373C966 FOREIGN KEY (country) REFERENCES country (iso2);
-ALTER TABLE country_languages ADD CONSTRAINT FK_15325619D4DB71B5 FOREIGN KEY (language) REFERENCES language (code);
-ALTER TABLE translation ADD CONSTRAINT FK_B469456F5373C966 FOREIGN KEY (country) REFERENCES country (iso2);
-ALTER TABLE translation ADD CONSTRAINT FK_B469456FD4DB71B5 FOREIGN KEY (language) REFERENCES language (code);
+SET NAMES utf8mb4;
+
+DROP TABLE IF EXISTS `country`;
+CREATE TABLE `country` (
+  `iso2` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `iso3` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tld` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
+  PRIMARY KEY (`iso2`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `country_languages`;
+CREATE TABLE `country_languages` (
+  `country` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`country`,`language`),
+  KEY `IDX_153256195373C966` (`country`),
+  KEY `IDX_15325619D4DB71B5` (`language`),
+  CONSTRAINT `FK_153256195373C966` FOREIGN KEY (`country`) REFERENCES `country` (`iso2`) ON DELETE CASCADE,
+  CONSTRAINT `FK_15325619D4DB71B5` FOREIGN KEY (`language`) REFERENCES `language` (`code`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `language`;
+CREATE TABLE `language` (
+  `code` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+DROP TABLE IF EXISTS `translation`;
+CREATE TABLE `translation` (
+  `country` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `language` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `translation` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`country`,`language`),
+  KEY `IDX_B469456F5373C966` (`country`),
+  KEY `IDX_B469456FD4DB71B5` (`language`),
+  CONSTRAINT `FK_B469456F5373C966` FOREIGN KEY (`country`) REFERENCES `country` (`iso2`) ON DELETE CASCADE,
+  CONSTRAINT `FK_B469456FD4DB71B5` FOREIGN KEY (`language`) REFERENCES `language` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

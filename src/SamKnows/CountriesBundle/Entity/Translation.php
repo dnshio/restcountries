@@ -4,12 +4,17 @@ namespace SamKnows\CountriesBundle\Entity;
 class Translation
 {
     /**
-     * @var string
+     * @var int;
+     */
+    private $id;
+
+    /**
+     * @var Country
      */
     private $country;
 
     /**
-     * @var string
+     * @var Language
      */
     private $language;
 
@@ -17,6 +22,29 @@ class Translation
      * @var string
      */
     private $translation;
+
+    public function __construct(Country $country = null, Language $language = null, $translation = null)
+    {
+        $this->country = $country;
+        $this->language = $language;
+        $this->translation = $translation;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return string

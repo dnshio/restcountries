@@ -8,6 +8,11 @@ class Language
      */
     private $code;
 
+    public function __construct($code = '')
+    {
+        $this->code = $code;
+    }
+
     /**
      * @return string
      */
