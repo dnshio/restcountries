@@ -34,11 +34,8 @@ class CountryFetcher
         $this->countryRepository->removeAll();
 
         foreach (json_decode($response->getBody(), true) as $rawCountry) {
-            try {
-                $this->countryRepository->save($this->countryHydrator->hydrate($rawCountry));
-            } catch (\Exception $e) {
-                var_dump($e->getMessage(), $e->getTraceAsString());die;
-            }
+
+            $this->countryRepository->save($this->countryHydrator->hydrate($rawCountry));
 
         }
     }
