@@ -1,12 +1,21 @@
 <?php
 namespace SamKnows\CountriesBundle\Entity;
 
-class Language
+class Language implements \JsonSerializable
 {
     /**
      * @var string
      */
     private $code;
+
+    /**
+     * @return string
+     */
+    function jsonSerialize()
+    {
+        return $this->code;
+    }
+
 
     public function __construct($code = '')
     {

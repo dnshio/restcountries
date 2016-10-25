@@ -6,6 +6,15 @@ use SamKnows\CountriesBundle\Entity\Country;
 
 class CountryRepository extends EntityRepository
 {
+
+    public function findAllOrdered()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function save(Country $country)
     {
         $this->getEntityManager()->persist($country);

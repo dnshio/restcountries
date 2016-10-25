@@ -2,6 +2,7 @@
 namespace SamKnows\CountriesBundle\Fetcher;
 
 use GuzzleHttp\Client;
+use SamKnows\CountriesBundle\Entity\Country;
 use SamKnows\CountriesBundle\Repository\CountryRepository;
 
 class CountryFetcher
@@ -33,10 +34,21 @@ class CountryFetcher
 
         $this->countryRepository->removeAll();
 
-        foreach (json_decode($response->getBody(), true) as $rawCountry) {
+        $rawCountries = json_decode($response->getBody(), true);
 
+        foreach ($rawCountries as $rawCountry) {
             $this->countryRepository->save($this->countryHydrator->hydrate($rawCountry));
-
+        }
+        
+        // Resolve borders
+        foreach ($rawCountries as $rawCountry) {
+            /** @var Country $country */
+            $country = $this->countryRepository->findOneByIso2($rawCountry['alpha2Code']);
+            foreach ($rawCountry['borders'] as $countryCode) {
+                $border = $this->countryRepository->findOneByIso3($countryCode);
+                $country->addBorder($border);
+            }
+            $this->countryRepository->save($country);
         }
     }
     

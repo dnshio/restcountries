@@ -1,8 +1,5 @@
-countries:
-    resource: "@CountriesBundle/Resources/config/routing.xml"
-    prefix:   /
-
 sam_knows_countries:
-    resource: "@SamKnowsCountriesBundle/Resources/config/routing.xml"
+    resource: "@SamKnowsCountriesBundle/Controller"
+    type: annotation
     prefix:   /
 

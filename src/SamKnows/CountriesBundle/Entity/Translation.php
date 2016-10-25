@@ -1,7 +1,7 @@
 <?php
 namespace SamKnows\CountriesBundle\Entity;
 
-class Translation
+class Translation implements \JsonSerializable
 {
     /**
      * @var int;
@@ -29,6 +29,14 @@ class Translation
         $this->language = $language;
         $this->translation = $translation;
     }
+
+    function jsonSerialize()
+    {
+        return [
+            $this->language->getCode() => $this->translation
+        ];
+    }
+
 
     /**
      * @return int

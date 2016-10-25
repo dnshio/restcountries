@@ -11,4 +11,8 @@
     database_password:     
     ```
     
-4. Run `bin/console countries:fetch` to fetch all countries and save them to DB
+4. Run `bin/console doctrine:schema:create` 
+5. Run `bin/console countries:fetch` to fetch all countries and save them to DB
+6. Run `bin/console server:run` to start Symfony's built in server
+7. Send a request to `http://127.0.0.1:8000/country` to get a list of countries
+

@@ -26,5 +26,16 @@
                 <cascade-all/>
             </cascade>
         </one-to-many>
+
+        <many-to-many target-entity="SamKnows\CountriesBundle\Entity\Country" field="borders" fetch="EXTRA_LAZY">
+            <join-table name="country_borders">
+                <join-columns>
+                    <join-column name="country" referenced-column-name="iso2" on-delete="CASCADE" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="border" referenced-column-name="iso2" on-delete="CASCADE" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
     </entity>
 </doctrine-mapping>

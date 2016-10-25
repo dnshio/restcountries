@@ -1,7 +1,7 @@
 <?php
 namespace SamKnows\CountriesBundle\Entity;
 
-class Country
+class Country implements \JsonSerializable
 {
     /**
      * @var string
@@ -44,9 +44,34 @@ class Country
     private $longitude;
 
     /**
-     * @var string
+     * @var Country[]
      */
-    private $borders;
+    private $borders = [];
+
+    function jsonSerialize()
+    {
+        $country = [
+            'name' => $this->name,
+            'iso2' => $this->iso2,
+            'iso3' => $this->iso3,
+            'tld' => $this->tld,
+            'languages' => [],
+            'translations' => [],
+            'borders' => []
+        ];
+        foreach ($this->borders as $border) {
+            $country['borders'][] = $border->getIso3();
+        }
+        // This is a little strange. jsonSerialize should get called automatically 
+        foreach ($this->languages as $language) {
+            $country['languages'][] = $language->jsonSerialize();
+        }
+        foreach ($this->translations as $translation) {
+            $country['translations'][$translation->getLanguage()->getCode()] = $translation->getTranslation();
+        }
+
+        return $country;
+    }
 
     /**
      * @return string
@@ -187,7 +212,7 @@ class Country
     }
 
     /**
-     * @return string
+     * @return Country[]
      */
     public function getBorders()
     {
@@ -195,11 +220,16 @@ class Country
     }
 
     /**
-     * @param string $borders
+     * @param array $borders
      */
-    public function setBorders($borders)
+    public function setBorders(array $borders)
     {
         $this->borders = $borders;
+    }
+
+    public function addBorder(Country $country)
+    {
+        $this->borders[] = $country;
     }
 
 }

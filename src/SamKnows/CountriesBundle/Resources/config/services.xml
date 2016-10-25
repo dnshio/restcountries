@@ -26,6 +26,11 @@
             <argument type="service" id="sam_knows_countries.repository.country" />
             <argument type="service" id="sam_knows_countries.fetcher.country_hydrator" />
         </service>
+
+        <service id="sam_knows_countries.controller.country" class="SamKnows\CountriesBundle\Controller\CountryController">
+            <argument type="service" id="sam_knows_countries.repository.country" />
+        </service>
+
     </services>
 
 </container>
